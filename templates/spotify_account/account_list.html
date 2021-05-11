@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}Authenticate{% endblock %}
+
+{% block content %}
+    {% for user in object_list %}
+        <li>{{ user.pk }}</li>
+        <li>{{ user.client_id }}</li>
+        <li>{{ user.client_secret }}</li>
+        <li>{{ user.auth_token }}</li>
+        <li>{{ user.playlist_url }}</li>
+        <br>
+    {% endfor %}
+{% endblock content %}
