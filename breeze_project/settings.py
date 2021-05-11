@@ -1,4 +1,4 @@
-from pathlib import Path
+from pathlib import Path, os
 from decouple import config, Csv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # myapps
+    'spotify_account',
 
     # otherapps
     'rest_framework',
@@ -49,7 +50,7 @@ ROOT_URLCONF = 'breeze_project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
