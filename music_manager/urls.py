@@ -45,11 +45,6 @@ urlpatterns = [
             name='insert_music'
         ),
     path(
-            'inserted_music',
-            views.InsertedMusicSyncTemplateView.as_view(),
-            name='inserted_music'
-        ),
-    path(
             '<int:pk>/delete_music',
             views.RemoveMusicDeleteView.as_view(),
             name='delete_music'
