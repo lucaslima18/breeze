@@ -28,11 +28,9 @@
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userMenu">
                                 <a class="dropdown-item" href="{% url 'my_playlist' %}">My Playlist</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="{% url 'sync_tracks' %}">Sync Tracks</a>
+                                <a class="dropdown-item" href="{% url 'sync_tracks' %}">Tracks List</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="{% url 'tracks' %}">Tracks List</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">Add Music</a>
+                                <a class="dropdown-item" href="{% url 'insert_music' %}">Add Music</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="{% url 'reset_token'%}">Refresh Spotify Token</a>
                                 <div class="dropdown-divider"></div>

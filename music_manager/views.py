@@ -117,6 +117,10 @@ class PostPlaylist(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('sync_playlist')
     login_url = 'login'
 
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super(PostPlaylist, self).form_valid(form)
+
 
 class PlaylistSwitchUpdateView(LoginRequiredMixin, UpdateView):
     model = Playlist
@@ -124,6 +128,10 @@ class PlaylistSwitchUpdateView(LoginRequiredMixin, UpdateView):
     fields = ['playlist_url']
     success_url = reverse_lazy('sync_playlist')
     login_url = 'login'
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super(PostPlaylist, self).form_valid(form)
 
 
 class PlaylistData(LoginRequiredMixin, DetailView):
@@ -136,7 +144,7 @@ class PostMusicCreateView(LoginRequiredMixin,  CreateView):
     template_name = 'music_manager/insert_music.html'
     fields = ['music_url']
     login_url = 'login'
-    success_url = reverse_lazy('inserted_music')
+    success_url = reverse_lazy('sync_tracks')
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
@@ -155,10 +163,6 @@ class PostMusicCreateView(LoginRequiredMixin,  CreateView):
         print(music_url)
         insert_music(music_url, playlist_url, auth_token)
         return HttpResponseRedirect(self.get_success_url())
-
-class InsertedMusicSyncTemplateView(TemplateView):
-    template_name = 'music_manager/inserted_music.html'
-    login_url = 'login'
 
 
 class RemoveMusicDeleteView(LoginRequiredMixin, DeleteView):
