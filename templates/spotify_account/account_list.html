@@ -5,10 +5,9 @@
 {% block content %}
     {% for user in object_list %}
         <li>{{ user.pk }}</li>
-        <li>{{ user.client_id }}</li>
-        <li>{{ user.client_secret }}</li>
+        <li>{{ user.auth_code }}</li>
+        <li>{{ user.refresh_token }}</li>
         <li>{{ user.auth_token }}</li>
-        <li>{{ user.playlist_url }}</li>
         <br>
     {% endfor %}
 {% endblock content %}

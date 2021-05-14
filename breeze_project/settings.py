@@ -29,6 +29,8 @@ INSTALLED_APPS = [
 
     # myapps
     'spotify_account',
+    'music_manager',
+    'users',
 
     # otherapps
     'rest_framework',
@@ -119,3 +121,12 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTH_USER_MODEL = 'users.CustomUser'
+
+#login and logout
+LOGIN_REDIRECT_URL = 'create_code'
+LOGOUT_REDIRECT_URL  = 'home'
+
+#send test emails
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

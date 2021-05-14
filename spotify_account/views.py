@@ -1,49 +1,31 @@
-from django.views.generic import ListView, DetailView
-from django.views.generic import CreateView, UpdateView, DeleteView
+from django.views.generic import TemplateView
 from django.urls import reverse_lazy
+from django.shortcuts import redirect
 
+from utils.spotify_auth import refresh_auth_token
 from spotify_account.models import SpotifyData
-from utils.spotify_auth import get_auth_token
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
-class SpotifyAccountListView(ListView):
+class ResetTokenTemplateView(LoginRequiredMixin, TemplateView):
+    """
+        This class call a function for get the auth token for a user
+        manual update
+    """
     model = SpotifyData
-    template_name = 'spotify_account/account_list.html'
-
-
-class SpotifyAccountDetailView(DetailView):
-    model = SpotifyData
-    template_name = 'spotify_account/account_data_.html'
-
-
-class SpotifyAccountCreateView(CreateView):
-    model = SpotifyData
-    template_name = 'spotify_account/create_spotify_data.html'
-    fields = ['user', 'client_id', 'client_secret', 'playlist_url']
+    template_name = 'spotify_account/update_token.html'
     success_url = reverse_lazy('home')
 
-    def form_valid(self, form):
-        self.object = form.save(commit=True)
-       
-
-        # things
-        token = get_auth_token(self.object.pk)
-        #import pdb
-        #pdb.set_trace()
-        self.object.auth_token = token.get('access_token')
-        self.object.save()
-        return  super(SpotifyAccountCreateView, self).form_valid(form)
+    def get(self, *args, **kwargs):
+        resp = super().get(*args, **kwargs)
+        user = self.request.user
+        spotify_account = SpotifyData.objects.get(user=user)
+        auth_token = refresh_auth_token(spotify_account.refresh_token, user)
+        if auth_token is not None:
+            return resp
+        else:
+            return redirect(reverse_lazy('create_code'))
 
 
-
-class SpotifyAccountUpdateView(UpdateView):
-    model = SpotifyData
-    template_name = 'spotify_account/update_spotify_data.html'
-    fields = ['user', 'client_id', 'client_secret', 'playlist_url']
-    success_url = reverse_lazy('home')  
-
-
-class SpotifyAccountDeleteView(DeleteView):
-    model = SpotifyData
-    template_name = 'spotify_account/delete_spotify_data.html'
-    success_url = reverse_lazy('home')
+def get_code(request):
+    return redirect("https://accounts.spotify.com/authorize?client_id=82184a930a664f96827a6eb2d97590b1&scope=user-read-playback-state%20user-read-currently-playing%20playlist-modify-public%20playlist-modify-private&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A8000%2Fmusic_manager%2F")
