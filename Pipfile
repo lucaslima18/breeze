@@ -13,6 +13,7 @@ redis = "~=3.5.3"
 djangorestframework-jwt = "*"
 celery = "==3.1.25"
 pipfile = "*"
+django-redis = "*"
 
 [dev-packages]
 flake8 = "*"
