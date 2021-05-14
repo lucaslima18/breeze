@@ -32,7 +32,6 @@ class HomeTemplateView(LoginRequiredMixin, TemplateView):
             return redirect(reverse_lazy('create_code'))
 
         except:
-            print("NAO ACHOU")
             user = self.request.user
             code = self.request.GET.get('code')
             user = self.request.user
@@ -62,7 +61,6 @@ class SyncPlaylistData(LoginRequiredMixin, TemplateView):
 
         auth_token = SpotifyData.objects.get(user=user)
         auth_token = auth_token.auth_token
-        print(auth_token)
         get_playlist_overview(auth_token, user)     
         return context
 
@@ -81,7 +79,6 @@ class SyncMusicData(LoginRequiredMixin, TemplateView):
 
         auth_token = SpotifyData.objects.get(user=user)
         auth_token = auth_token.auth_token
-        print(auth_token)
         get_playlist_tracks(playlist_url, auth_token, user)     
         return redirect(reverse_lazy('tracks'))
 
@@ -131,7 +128,7 @@ class PlaylistSwitchUpdateView(LoginRequiredMixin, UpdateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
-        return super(PostPlaylist, self).form_valid(form)
+        return super(PlaylistSwitchUpdateView, self).form_valid(form)
 
 
 class PlaylistData(LoginRequiredMixin, DetailView):
@@ -148,20 +145,21 @@ class PostMusicCreateView(LoginRequiredMixin,  CreateView):
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
+
         # things
         user = self.request.user
         music_url = self.object.music_url
      
         playlist = Playlist.objects.get(user=user)
         playlist_url = playlist.playlist_url
-        print(playlist_url)
         spotify_data = SpotifyData.objects.get(user=user)
         refresh_token = spotify_data.refresh_token
         refresh_auth_token(refresh_token, user)
+
         auth_token = SpotifyData.objects.get(user=user)
         auth_token = auth_token.auth_token
-        print(music_url)
         insert_music(music_url, playlist_url, auth_token)
+
         return HttpResponseRedirect(self.get_success_url())
 
 
@@ -178,12 +176,10 @@ class RemoveMusicDeleteView(LoginRequiredMixin, DeleteView):
         music_url = self.object.music_url
         playlist = Playlist.objects.get(user=user)
         playlist_url = playlist.playlist_url
-        print(playlist_url)
         spotify_data = SpotifyData.objects.get(user=user)
         refresh_token = spotify_data.refresh_token
         refresh_auth_token(refresh_token, user)
         auth_token = SpotifyData.objects.get(user=user)
         auth_token = auth_token.auth_token
-        print(music_url)
         delete_music(music_url, playlist_url, auth_token)
         return resp
