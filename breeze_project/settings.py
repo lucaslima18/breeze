@@ -78,7 +78,7 @@ DATABASES = {
         'USER': config('DB_USER'),
         'PASSWORD': config('DB_PASSWORD'),
         'HOST': config('DB_HOST'),
-        'PORT': config('c'),
+        'PORT': config('DB_PORT'),
     }
 }
 
@@ -144,3 +144,13 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.BasicAuthentication',
     ),
 }
+
+# Celery Configuration Options
+CELERY_TIMEZONE = "America/Maceio"
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_TIME_LIMIT = 30 * 60
+
+# setting redis broker
+CELERY_BROKER_URL = "redis://127.0.0.1:6379/0"
+# CELERY_RESULT_BACKEND = "redis://127.0.0.1:6379/0"
+# CELERY_BROKER_TRANSPORT = "redis://127.0.0.1:6379/0"
