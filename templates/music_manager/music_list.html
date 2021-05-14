@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}Music{% endblock %}
+
+{% block content %}
+    {% for object in object_list %}
+    <div class="card">
+        <div class="card-header">
+          {{ object.music_name}}
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">Artist(s): {{ object.music_artist }}</h5>
+          <h5 class="card-title">Album: {{ object.album }}</h5>
+          <p class="card-text">Acess the album <a href="{{ object.album_url }}">here</a></p>
+          <a href="{{ object.music_url }}" class="btn btn-primary">Listen this music</a> <a href="{% url 'delete_music' object.pk %}" class="btn btn-primary" style="border-color: red; background-color: red;">Delete Music</a>
+        </div>
+      </div>
+    {% endfor %}
+{% endblock content %}

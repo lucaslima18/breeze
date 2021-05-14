@@ -4,9 +4,18 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-django = "*"
+django = "~=3.2.2"
+python-decouple = "~=3.4"
+psycopg2 = "~=2.8.6"
+djangorestframework = "~=3.12.4"
+requests = "~=2.25.1"
+django-celery = "~=3.3.1"
+redis = "~=3.5.3"
 
 [dev-packages]
+flake8 = "*"
+ipython = "*"
+django-extensions = "*"
 
 [requires]
 python_version = "3.9"

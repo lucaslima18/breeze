@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block title %}No Playlist{% endblock %}
+
+{% block content %} 
+    <h1>We're almost there...</h1>
+    <p>    we just need to know which playlist you want to manage</p>  
+    <a href="{% url 'playlist_register' %}">Register my playlist</a>
+{% endblock content %}

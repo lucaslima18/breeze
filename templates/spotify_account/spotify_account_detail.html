@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block title %}Detail{% endblock %}
+
+{% block content %}
+    <li>{{ object }}</li>
+    <li>{{ object.pk }}</li>
+    <li>{{ object.auth_token }}</li>
+{% endblock content %}
