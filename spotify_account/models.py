@@ -9,9 +9,9 @@ class SpotifyData(models.Model):
                 null=False,
                 blank=False
             )
-    auth_code = models.CharField(max_length=255, blank=True, null=True)
-    auth_token = models.CharField(max_length=255, blank=True, null=True)
-    refresh_token = models.CharField(max_length=255, blank=True, null=True)
+    auth_code = models.CharField(max_length=700, blank=True, null=True)
+    auth_token = models.CharField(max_length=700, blank=True, null=True)
+    refresh_token = models.CharField(max_length=700, blank=True, null=True)
 
     def __str__(self):
         return self.user.username
