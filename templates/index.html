@@ -2,5 +2,18 @@
 
 {% block title %}Authenticate{% endblock %}
 
-{% block content %}    
+{% block content %}
+<div class="card text-center">
+    <div class="card-header">
+      Welcome to...
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">Breeze</h5>
+      <p class="card-text">One app for manage your spotify playlist</p>
+      <a href="{% url 'my_playlist' %}" class="btn btn-primary">Go to my playlist</a>
+    </div>
+    <div class="card-footer text-muted">
+      2 days ago
+    </div>
+  </div>
 {% endblock content %}

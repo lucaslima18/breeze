@@ -3,6 +3,10 @@ from rest_framework import serializers
 
 
 class TrackSerializer(serializers.ModelSerializer):
+    '''
+        This serializer provides data from stored
+        music in local database
+    '''
     class Meta:
         model = Music
         fields = (
@@ -18,6 +22,10 @@ class TrackSerializer(serializers.ModelSerializer):
 
 
 class PlaylistSerializer(serializers.ModelSerializer):
+    '''
+        This serializer provides data from stored
+        music in local database
+    '''
     class Meta:
         model = Playlist
         fields = (

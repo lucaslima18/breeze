@@ -6,14 +6,15 @@ name = "pypi"
 [packages]
 django = "~=3.2.2"
 python-decouple = "~=3.4"
-psycopg2 = "~=2.8.6"
 djangorestframework = "~=3.12.4"
 requests = "~=2.25.1"
 redis = "~=3.5.3"
 djangorestframework-jwt = "*"
-celery = "==3.1.25"
+celery = "==5.0.5"
 pipfile = "*"
 django-redis = "*"
+ipython = "*"
+psycopg2 = "*"
 
 [dev-packages]
 flake8 = "*"

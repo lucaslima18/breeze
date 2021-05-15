@@ -1,12 +1,15 @@
 import json
 
-
 import requests
 from music_manager.models import Music, Playlist
-from spotify_account.models import SpotifyData
 
 
 def get_playlist_overview(auth_token, user):
+    '''
+        this function explore the spotify api,
+        get the playlist info and save in the
+        local db
+    '''
     playlist = Playlist.objects.get(user=user)
 
     playlist.playlist_uuid = url_to_uuid(playlist.playlist_url)
@@ -16,17 +19,25 @@ def get_playlist_overview(auth_token, user):
     }
     request = requests.get(url, headers=headers)
     response = request.json()
+
     playlist.name = response['name']
     playlist.playlist_author = response['owner']['display_name']
     playlist.save()
+
     return response
 
 
 def get_playlist_tracks(playlist_url, auth_token, user):
+    '''
+        this funtion explore the spotify api for obtain
+        the tracks based in the user playlist
+    '''
     try:
         Music.objects.filter(user=user).delete()
+
     except:
         pass
+
     playlist_uuid = url_to_uuid(playlist_url)
     url = f"https://api.spotify.com/v1/playlists/{playlist_uuid}"
     headers = {
@@ -37,7 +48,8 @@ def get_playlist_tracks(playlist_url, auth_token, user):
     while url is not None:
         request = requests.get(url, headers=headers)
         response = request.json()
-        error = response.get('error')      
+        error = response.get('error')
+     
         if error is None:
             if next_call is not True:
                 item = 0
@@ -53,11 +65,10 @@ def get_playlist_tracks(playlist_url, auth_token, user):
                     music.album = tracks[item]['track']['album']['name']
                     music.music_duration = tracks[item]['track']['duration_ms']
                     music.save()
-                    item = item+1
-                    print("----------------------------------------------")       
-                    print(f"{music}\n{music.music_name}\n{music.music_url}\n{music.music_artist}\n{music.album_url}\n{music.music_duration}\n")       
+                    item = item+1   
                 url = tracks = response['tracks']['next']
-                next_call = True           
+                next_call = True
+          
             else:
                 item = 0
                 tracks = response['items']
@@ -73,14 +84,16 @@ def get_playlist_tracks(playlist_url, auth_token, user):
                     music.album = tracks[item]['track']['album']['name']
                     music.music_duration = tracks[item]['track']['duration_ms']
                     music.save()
-                    item = item+1
-                    print("----------------------------------------------")
-                    print(f"{music}\n{music.music_name}\n{music.music_artist}\n{music.music_duration}\n{music.music_url}\n{music.music_uri}\n{music.album}\n{music.album_url}")       
+                    item = item+1      
                 next_call = True
                 url = tracks = response['next']
 
 
-def insert_music(music_url, playlist_url, auth_token):   
+def insert_music(music_url, playlist_url, auth_token):
+    '''
+        this function insert tracks on spotify user
+        playlist
+    '''
     music_uri = url_to_uri(music_url)
     playlist_uuid = url_to_uuid(playlist_url)
 
@@ -93,15 +106,19 @@ def insert_music(music_url, playlist_url, auth_token):
     }
 
     request = requests.post(url, data=json.dumps(data), headers=headers)
-    print(request)
     response = request.json()
 
-    if response.get('snapshot_id') != None:
+    if response.get('snapshot_id') is not None:
         print("Success", response.get('snapshot_id'))  
     else:
         print(response)
 
+
 def delete_music(music_url, playlist_url, auth_token):
+    '''
+        this function delete tracks on spotify user
+        playlist
+    '''
     music_uri = url_to_uri(music_url)
     playlist_uuid = url_to_uuid(playlist_url)
 
@@ -114,14 +131,18 @@ def delete_music(music_url, playlist_url, auth_token):
     }
 
     request = requests.delete(url, data=json.dumps(data), headers=headers)
-    print(request)
     response = request.json()
 
-    if response.get('snapshot_id') != None:
+    if response.get('snapshot_id') is not None:
         print("Success", response.get('snapshot_id'))
 
 
 def url_to_uuid(url):
+    '''
+        this function format the url for one acceptable
+        value for the spotify api requests, in this case
+        the uuid from a music or playlist
+    '''
     splited = url.split('?')
     pre_url = splited[0]
     splited = pre_url.split("/")
@@ -130,16 +151,14 @@ def url_to_uuid(url):
 
 
 def url_to_uri(url):
+    '''
+        this function format the url for one acceptable
+        value for the spotify api requests, in this case
+        the uri of the music or playlist
+    '''
     splited = url.split("?")
     pre_url = splited[0]
     splited = pre_url.split("/")
     uri = f"spotify:{splited[3]}:{splited[4]}"
 
     return uri
-
-if __name__ == '__main__':
-    playlist="https://open.spotify.com/playlist/0PfsxAklcBs7DZPxZkB6zB"
-    get_playlist(playlist)
-    music_link="https://open.spotify.com/track/1jWJcuTUgO99gntArSPmrB?si=e2048993a1784679" 
-    insert_music(music_link, playlist)
-    delete_music(music_link, playlist)
