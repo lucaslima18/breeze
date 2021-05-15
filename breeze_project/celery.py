@@ -18,6 +18,6 @@ app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)
 app.conf.beat_schedule = {
     "listing-playlists": {
         "task": playlist_objects_info(),
-        "schedule": 5.0
+        "schedule": 60.0
     }
 }

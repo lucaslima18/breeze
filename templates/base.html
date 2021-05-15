@@ -20,7 +20,7 @@
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 {% if user.is_authenticated %}
                     <ul class="navbar-nav ml-auto">
-                        <li class="nav-item"><a class="nav-link" href="#" id="userMenu" aria-haspopup="true" aria-expanded="false">+ New</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'sync_tracks' %}" id="userMenu" aria-haspopup="true" aria-expanded="false">Track list</a></li>
                         <li class="nav-item">
                             <a class="nav-link dropdown-toggle" href="" id="userMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 {{ user.username }}
