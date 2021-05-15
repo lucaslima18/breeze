@@ -1,6 +1,9 @@
-from celery import celery_task
+import django
+django.setup()
+
+from music_manager.models import Playlist
 
 
-@celery_task()
-def add():
-    print("Hello world")
+def playlist_objects_info():
+    playlists = Playlist.objects.all()
+    return f"{playlists}"

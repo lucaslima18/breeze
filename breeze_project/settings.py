@@ -1,6 +1,7 @@
 from pathlib import Path, os
 from decouple import config, Csv
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -148,9 +149,7 @@ REST_FRAMEWORK = {
 # Celery Configuration Options
 CELERY_TIMEZONE = "America/Maceio"
 CELERY_TASK_TRACK_STARTED = True
-CELERY_TASK_TIME_LIMIT = 30 * 60
+CELERY_TASK_TIME_LIMIT = 1
 
 # setting redis broker
-CELERY_BROKER_URL = "redis://127.0.0.1:6379/0"
-# CELERY_RESULT_BACKEND = "redis://127.0.0.1:6379/0"
-# CELERY_BROKER_TRANSPORT = "redis://127.0.0.1:6379/0"
+BROKER_URL = "redis://127.0.0.1:6379/0"

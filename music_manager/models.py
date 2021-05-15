@@ -3,6 +3,10 @@ from users.models import CustomUser
 
 
 class Music(models.Model):
+    IS_PLAYED = (
+        ("T", "true"),
+        ("F", "false"),
+    )
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     music_name = models.CharField(max_length=255, blank=True, null=True)
     music_url = models.CharField(max_length=255, blank=True, null=True)
@@ -10,7 +14,13 @@ class Music(models.Model):
     album = models.CharField(max_length=255, blank=True, null=True)
     album_url = models.CharField(max_length=255, blank=True, null=True)
     music_duration = models.IntegerField(blank=True, null=True)
-    played = models.BooleanField(default=False)
+    played = models.CharField(
+                                max_length=1,
+                                choices=IS_PLAYED,
+                                default="F",
+                                blank=False,
+                                null=False
+                            )
 
     def __str__(self):
         return self.music_url
@@ -30,4 +40,3 @@ class Playlist(models.Model):
 
     def __str__(self):
         return self.playlist_url
-
