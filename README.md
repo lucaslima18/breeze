@@ -2,64 +2,71 @@
 ### One app for manager spotify playlists
 
 ## About this project
-This app is a project feito para estudo de caso da api do spotify, com ele é 
-possível gerenciar sua playlist favorita. Este aplicativo é capaz de se conectar
-com uma conta do spotify utilizando seu sistema de autenticação e listar, adicionar e remover músicas de uma playlist.
+This app is a project made for spotify api case study, with it is
+possible to manage your favorite playlist. This application is able to connect
+with a spotify account using your authentication system and listing,
+add and remove songs from a playlist.
 
-A aplicação conta também com uma api para uso externo em outras aplicações dos dados salvos nesta aplicação.
-
-## Workflow
-
+The application also has an api for external use in other applications of the data saved in this application.
 
 ## Installation
 
-Para rodar este projeto, você deve ter instalado em seu ambiente de desenvolvimento:
+To run this project, you must have installed in your development environment:
 
 - Python ~= 3.9
 - PostgreSql ~= 12.6
 - redis ~= 6.0
 
-Para instalar o projeto, você deve clonar este repositório, e na pasta desejada,seguir o seguinte passo a passo:
-<br>1- python install pipen
-<br>2- pipenv install
-<br>3- pipenv install --dev
-<br>4- psql (utilize suas credenciais para acessar)
-<br>5- create database breeze;
-<br>6- \q -->  para sair do postgresql
-<br>7- ./manage.py migrate
-<br>8- ./manage.py runserver
+To install the project, you must clone this repository, and in the desired folder, follow the following step by step:
+<br>1- $ python install pipen
+<br>2- $ pipenv install
+<br>3- $ pipenv install --dev
+<br>4- $ psql (utilize suas credenciais para acessar)
+<br>5- $ create database breeze;
+<br>6- $ \q -->  para sair do postgresql
+<br>7- $ ./manage.py migrate
+<br>8- $ ./manage.py runserver
 
-O projeto ficará disponível em: http://localhost:8000/
-
+The project will be available at: http://localhost:8000/
 
 ## Functionalities
-Neste projeto você vai encontrar:
+In this project you will find:
 
-- Sistema de cadastro, login e recuperação de senha
-- Authenticação com api do spotify e atualização automática de token ao acessar os endponts da aplicação
-- CRUD de playlist do spotify
-- CRUD de músicas relacionadas a playlists
-- Armazenamento de dados recuperados da api
-- Api de acesso aos dados da aplicação utilizando padrão de atuenticação JWT
-- Automatização simples de listagem de dados utilizando redis e celery
+- Registration, login and password recovery system
+- Authentication with spotify api and automatic token update when accessing the application's endponts
+- Spotify playlist CRUD
+- CRUD of songs related to playlists
+- Storage of data retrieved from the api
+- Api for accessing application data using JWT authentication standard
+- Simple automation of data listing using redis and celery
 
 ## Running Api
 
-Para acessar a api deste projeto acesse: 
+To access the api for this project, you must generate an authentication token at the endpoint:
+- POST http://localhost:8000/api/token/ 
+- in body:
 
-### JWT AUTHENTICATION
-A api possui os seguintes endpoints
+{
+    "username": ["{{put your username here }}"]
+    "password": ["{{put your password here}}"]
+}
 
-GET
+If the token has expired, access the following link and pass the token as a parameter:, If the token has expired, visit the following link and pass the token as a parameter:
+- POST http://localhost:8000/api/refresh_token/
+- int body:
 
-PUT 
+{
+    "token": ["{{put your old token here}}"]
+}
 
-POST
-
-DELETE
+The api has the following endpoints:
+-  GET, POST, PUT e DELETE http://localhost:8000/api/v1/track
+-  GET, POST, PUT e DELETE http://localhost:8000/api/v1/playlists
 
 ## Running celery automation
 
-Para estudo de caso, implementei uma automação com celery, utilizando o broker redis para rodar uma automação que lista as playlists dos usuários a cada 60 segundos.
+For case study, I implemented an automation with celery, using the broker redis to run an automation that lists users' playlists every 60 seconds.
 
-Para rodar 
+To run, just type the following command:
+
+$ celery -A breeze_project beat --loglevel=info

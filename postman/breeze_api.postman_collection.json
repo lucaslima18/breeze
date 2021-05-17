@@ -1,0 +1,90 @@
+{
+	"variables": [],
+	"info": {
+		"name": "breeze_api",
+		"_postman_id": "52b7f6ff-6ccd-ce86-e2ef-6853a183b35d",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Track",
+			"request": {
+				"url": "http://localhost:8000/api/v1/track/",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "JWT {{put your auth token here}}",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": "Save one track list from breeze application"
+			},
+			"response": []
+		},
+		{
+			"name": "playlists",
+			"request": {
+				"url": "http://localhost:8000/api/v1/playlist/",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJ1c2VybmFtZSI6InRlc3RlYXBpIiwiZXhwIjoxNjIxMjc3OTE4LCJlbWFpbCI6InRlc3RlYXBpQGdtYWlsLmNvbSJ9.EpG2v7CqkEByZpEaus2AB6zuxOzp6yC2fg0wjbosaAQ",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Refresh token",
+			"request": {
+				"url": "http://localhost:8000/api/refresh_token/",
+				"method": "POST",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"description": "",
+						"disabled": true
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"token\": ['{{put the token here}}']\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"url": "http://localhost:8000/api/token/",
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": [\"{{put your username here}}\"],\n\t\"password\": [\"{{put your password here}}\"]\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
